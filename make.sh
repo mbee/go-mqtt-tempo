@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-VERSION=1.0.0
+VERSION=1.1.0
 PRODUCT=mqtt-tempo
 
 echo fetch dependencies

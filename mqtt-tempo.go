@@ -46,6 +46,12 @@ func publishColors() {
 	log.Debugf("sent mqtt-tempo/tomorrow with %s", tomorrow)
 }
 
+func publishWeKnowWhatTomorrowWillBe(t string) {
+	token := client.Publish("mqtt-tempo/alarm", 2, false, t)
+	token.Wait()
+	log.Debugf("sent mqtt-tempo/alarm with %s", t)
+}
+
 func updateColors() {
 	go func() {
 		for {
@@ -69,6 +75,9 @@ func updateColors() {
 				log.Fatalf("udpateColors(): %v", err)
 			}
 			json.Unmarshal(body, &dataFromEDF)
+			if tomorrow == "ND" && dataFromEDF.Tomorrow.Tempo != "ND" {
+				publishWeKnowWhatTomorrowWillBe(tomorrow)
+			}
 			if tomorrow != dataFromEDF.Tomorrow.Tempo || today != dataFromEDF.Today.Tempo {
 				today = dataFromEDF.Today.Tempo
 				tomorrow = dataFromEDF.Tomorrow.Tempo
