@@ -76,7 +76,7 @@ func updateColors() {
 			}
 			json.Unmarshal(body, &dataFromEDF)
 			if tomorrow == "ND" && dataFromEDF.Tomorrow.Tempo != "ND" {
-				publishWeKnowWhatTomorrowWillBe(tomorrow)
+				publishWeKnowWhatTomorrowWillBe(dataFromEDF.Tomorrow.Tempo)
 			}
 			if tomorrow != dataFromEDF.Tomorrow.Tempo || today != dataFromEDF.Today.Tempo {
 				today = dataFromEDF.Today.Tempo
