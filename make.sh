@@ -1,25 +1,26 @@
 #!/usr/bin/env sh
 
-VERSION=1.1.1
-PRODUCT=mqtt-tempo
+VERSION=$(cat VERSION)
+NAME=mqtt-tempo
 
-echo fetch dependencies
-go get github.com/Sirupsen/logrus
-go get github.com/eclipse/paho.mqtt.golang
-go get golang.org/x/sys/unix
-go get github.com/konsorten/go-windows-terminal-sequences
+rm -rf release/$VERSION
 
-echo build linux/arm/5
+echo build release/$VERSION/linux/arm
 mkdir -p release/$VERSION/linux/arm
-GOOS=linux GOARCH=arm GOARM=5 go build $PRODUCT.go
-mv $PRODUCT release/$VERSION/linux/arm/$PRODUCT
+GOOS=linux GOARCH=arm GOARM=7 go build $NAME.go
+mv $NAME release/$VERSION/linux/arm
 
-echo build linux/amd64
+echo build release/$VERSION/linux/amd64
 mkdir -p release/$VERSION/linux/amd64
-GOOS=linux GOARCH=amd64 go build $PRODUCT.go
-mv $PRODUCT release/$VERSION/linux/amd64/$PRODUCT
+GOOS=linux GOARCH=amd64 go build $NAME.go
+mv $NAME release/$VERSION/linux/amd64
 
-echo build windows/amd64
+echo build release/$VERSION/windows/amd64
 mkdir -p release/$VERSION/windows/amd64
-GOOS=windows GOARCH=amd64 go build $PRODUCT.go
-mv $PRODUCT.exe release/$VERSION/windows/amd64/$PRODUCT
+GOOS=windows GOARCH=amd64 go build $NAME.go
+mv $NAME.exe release/$VERSION/windows/amd64
+
+echo build release/$VERSION/linux/aarch64
+mkdir -p release/$VERSION/linux/aarch64
+GOOS=linux GOARCH=arm64 go build $NAME.go
+mv $NAME release/$VERSION/linux/aarch64
