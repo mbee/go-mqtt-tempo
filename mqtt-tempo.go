@@ -29,12 +29,8 @@ var (
 )
 
 type tempoAPIAnswer struct {
-	Tomorrow struct {
-		Tempo string `json:"Tempo"`
-	} `json:"JourJ1"`
-	Today struct {
-		Tempo string `json:"Tempo"`
-	} `json:"JourJ"`
+	CouleurJourJ  string `json:"couleurJourJ"`
+	CouleurJourJ1 string `json:"couleurJourJ1"`
 }
 
 func publishColors() {
@@ -59,6 +55,7 @@ func updateColors() {
 			now := time.Now()
 			date := now.Format("2006-01-02")
 			url := fmt.Sprintf(tempoURL, date)
+			log.Debugf("url: %s", url)
 			client := &http.Client{}
 			request, err := http.NewRequest("GET", url, nil)
 			if err != nil {
@@ -75,12 +72,12 @@ func updateColors() {
 				log.Fatalf("udpateColors(): %v", err)
 			}
 			json.Unmarshal(body, &dataFromEDF)
-			if tomorrow == "ND" && dataFromEDF.Tomorrow.Tempo != "ND" {
-				publishWeKnowWhatTomorrowWillBe(dataFromEDF.Tomorrow.Tempo)
+			if tomorrow == "ND" && dataFromEDF.CouleurJourJ != "ND" {
+				publishWeKnowWhatTomorrowWillBe(dataFromEDF.CouleurJourJ)
 			}
-			if tomorrow != dataFromEDF.Tomorrow.Tempo || today != dataFromEDF.Today.Tempo {
-				today = dataFromEDF.Today.Tempo
-				tomorrow = dataFromEDF.Tomorrow.Tempo
+			if tomorrow != dataFromEDF.CouleurJourJ1 || today != dataFromEDF.CouleurJourJ {
+				today = dataFromEDF.CouleurJourJ
+				tomorrow = dataFromEDF.CouleurJourJ1
 				publishColors()
 			}
 			log.Debugf("today is %s and tomorrow is %s", today, tomorrow)
@@ -99,6 +96,7 @@ func main() {
 	mqttPassword = os.Getenv("TEMPO_MQTT_PASSWORD")
 	if os.Getenv("DEBUG") != "" {
 		log.SetLevel(log.DebugLevel)
+		log.Debugf("Debug mode")
 	}
 	co := mqtt.NewClientOptions().AddBroker(mqttURL)
 	co.SetClientID("mqtt-tempo")

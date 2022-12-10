@@ -5,7 +5,7 @@
 few environment variables must be set:
 
 - TEMPO_URL</br>
-  should be filled with <https://particulier.edf.fr/bin/edf_rc/servlets/ejptemponew?Date_a_remonter=%s&TypeAlerte=TEMPO></br>
+  should be filled with <https://particulier.edf.fr/services/rest/referentiel/searchTempoStore?dateRelevant=%s&TypeAlerte=TEMPO></br>
   where %s will be replaced by the current date (format 2006-01-02)
 - TEMPO_MQTT_URL</br>
   address of the mqtt broker, looks like tcp://localhost:1883
@@ -18,7 +18,7 @@ few environment variables must be set:
 
 for instance:
 
-    DEBUG=true TEMPO_URL='https://particulier.edf.fr/bin/edf_rc/servlets/ejptemponew?Date_a_remonter=%s&TypeAlerte=TEMPO' TEMPO_MQTT_URL="tcp://localhost:1883" TEMPO_MQTT_LOGIN="" TEMPO_MQTT_PASSWORD="" ./release/1.0.0/linux/amd64/mqtt-tempo
+    DEBUG=true TEMPO_URL='https://particulier.edf.fr/services/rest/referentiel/searchTempoStore?dateRelevant=%s&TypeAlerte=TEMPO' TEMPO_MQTT_URL="tcp://localhost:1883" TEMPO_MQTT_LOGIN="" TEMPO_MQTT_PASSWORD="" ./release/1.0.0/linux/amd64/mqtt-tempo
 
 ## How to install it
 
